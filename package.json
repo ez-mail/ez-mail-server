@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "pre-commit": "lint-staged && rm -rf .git/hooks && ln -s ../.husky .git/hooks",
+    "prepare": "husky install && husky add .husky/pre-commit 'npm run pre-commit'"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -17,6 +19,15 @@
     "eslint": "^8.34.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.6.0",
-    "eslint-plugin-prettier": "^4.2.1"
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.1.1"
+  },
+  "lint-staged": {
+    "**/*.{js, html, css, json}": [
+      "prettier --write .",
+      "eslint --fix .",
+      "git add ."
+    ]
   }
 }
