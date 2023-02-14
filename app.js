@@ -1,17 +1,15 @@
 const createError = require('http-errors');
 const express = require('express');
 
-const path = require('path');
 const router = require('./loaders/router');
 const middleware = require('./loaders/middleware');
+const initPassport = require('./passport');
 
 const app = express();
 
+initPassport();
 middleware(app);
 router(app);
-
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 
 app.use(function (req, res, next) {
   next(createError(404));
@@ -22,9 +20,7 @@ app.use(function (err, req, res) {
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+  res.status(err.status || 500).json(err.message);
 });
 
 module.exports = app;

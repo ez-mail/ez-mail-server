@@ -1,4 +1,4 @@
-// const passport = require('passport');
+const passport = require('passport');
 const { createUser } = require('../../services/auth.service');
 
 exports.signUp = async function (req, res, next) {
@@ -6,7 +6,7 @@ exports.signUp = async function (req, res, next) {
     const userDTO = req.body;
     await createUser(userDTO, next);
 
-    res.json('회원가입 완료');
+    res.status(201).json('회원가입 완료');
   } catch (error) {
     next(error);
   }
@@ -14,7 +14,10 @@ exports.signUp = async function (req, res, next) {
 
 exports.login = async function (req, res, next) {
   try {
-    res.json('로그인 완료');
+    passport.authenticate('local', {
+      successRedirect: '/',
+      failureRedirect: '/login',
+    })(req, res, next);
   } catch (error) {
     next(error);
   }
