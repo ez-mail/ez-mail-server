@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+
 const User = require('../models/User');
 const { ERROR_MESSAGE } = require('../constants');
 const { saltRound } = require('../config');
@@ -11,7 +12,7 @@ exports.createUser = async ({ email, password, userName, next }) => {
     }
 
     const cdnCode = 'test'; // 임시코드
-    const salt = await bcrypt.genSalt(saltRound);
+    const salt = await bcrypt.genSalt(Number(saltRound));
     const hashedPassword = await bcrypt.hash(password, salt);
 
     await User.create({ email, password: hashedPassword, userName, cdnCode });

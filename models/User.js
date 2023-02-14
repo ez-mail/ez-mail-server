@@ -1,5 +1,27 @@
 const mongoose = require('mongoose');
+
 const ERROR_MESSAGES = require('../constants');
+
+const subscriberSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+    },
+    name: {
+      type: String,
+      required: true,
+    },
+    adAgreement: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
 const userSchema = new mongoose.Schema(
   {
@@ -33,26 +55,11 @@ const userSchema = new mongoose.Schema(
     contact: {
       type: String,
     },
-    subscribers: [
-      {
-        email: {
-          type: String,
-          required: true,
-        },
-        name: {
-          type: String,
-          required: true,
-        },
-        adAgreement: {
-          type: Boolean,
-          required: true,
-          default: false,
-        },
-      },
-    ],
+    subscribers: [subscriberSchema],
     emailTemplates: [
       {
         type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
       },
     ],
   },

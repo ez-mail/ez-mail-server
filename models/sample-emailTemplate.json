@@ -1,0 +1,33 @@
+{
+  "_id": {
+    "$oid": "63eb341a27ec5a9a55b9eb29"
+  },
+  "editingStep": 1,
+  "emailTitle": "제목",
+  "emailContent": "본문",
+  "sender": "발신자",
+  "emailPreviewText": "미리보기",
+  "recipients": [],
+  "totalSendCount": 1,
+  "successSendCount": 1,
+  "startSendDate": {
+    "$date": {
+      "$numberLong": "1676292302455"
+    }
+  },
+  "endSendDate": {
+    "$date": {
+      "$numberLong": "1676292302455"
+    }
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1676292302455"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1676292302455"
+    }
+  }
+}
