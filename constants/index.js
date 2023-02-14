@@ -1,7 +1,7 @@
 exports.ERROR_MESSAGE = {
-  NOT_EXIST_EMAIL: '일치하는 이메일이 없습니다.',
+  NOT_EXIST_EMAIL: '일치하는 사용자가 없습니다.',
   EXIST_EMAIL: '가입된 이메일이 이미 존재합니다.',
-  INVALID_PASSWORD: '비밀번호가 일치하지 않습니다.',
+  INVALID_PASSWORD: '일치하는 사용자가 없습니다.',
   INVALID_USER: '인증되지 않은 유저입니다.',
   RESTRICTED_MIN_EMAIL_LENGTH: '이메일은 최소 5자 이상 입력해주세요.',
   RESTRICTED_MAX_EMAIL_LENGTH: '이메일은 최대 30자 이하로 입력해주세요.',
