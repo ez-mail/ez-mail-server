@@ -1,0 +1,28 @@
+{
+  "_id": {
+    "$oid": "63ea30ce46afe9b7b0cc602a"
+  },
+  "email": "test@test.com",
+  "password": "$2a$10$sFwX.AsJdoMGwFK2EYD.tu6PUBSDt.rp5XvAej49.DCEqa/rpVkqG",
+  "userName": "test",
+  "cdnCode": "cdn코드",
+  "companyName": "회사명",
+  "address": "주소",
+  "contact": "연락처",
+  "emailTemplates": [
+    {
+      "$oid": "63eb341a27ec5a9a55b9eb29"
+    }
+  ],
+  "subscribers": [],
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1676292302455"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1676292302455"
+    }
+  }
+}

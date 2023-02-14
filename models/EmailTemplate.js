@@ -39,6 +39,12 @@ const emailTemplateSchema = new mongoose.Schema(
         },
       },
     ],
+    totalSendCount: {
+      type: Number,
+    },
+    successSendCount: {
+      type: Number,
+    },
     startSendDate: {
       type: Date,
     },

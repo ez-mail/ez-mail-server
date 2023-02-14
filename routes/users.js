@@ -1,10 +1,9 @@
 const express = require('express');
 
+const { getLastSentEmailTemplate } = require('./controllers/user.controller');
+
 const router = express.Router();
 
-/* GET users listing. */
-router.get('/', function (req, res) {
-  res.send('respond with a resource');
-});
+router.get('/:user_id/email-templates', getLastSentEmailTemplate);
 
 module.exports = router;

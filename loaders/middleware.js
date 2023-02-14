@@ -3,6 +3,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+
 const { cookieSecret } = require('../config');
 
 module.exports = app => {

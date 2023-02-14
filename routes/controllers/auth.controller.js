@@ -1,4 +1,5 @@
 const passport = require('passport');
+
 const { createUser } = require('../../services/auth.service');
 
 exports.signUp = async function (req, res, next) {
@@ -6,7 +7,7 @@ exports.signUp = async function (req, res, next) {
     const userDTO = req.body;
     await createUser(userDTO, next);
 
-    res.status(201).json('회원가입 완료');
+    res.status(201).json();
   } catch (error) {
     next(error);
   }
