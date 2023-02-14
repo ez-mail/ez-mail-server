@@ -1,10 +1,14 @@
 const express = require('express');
+const { signUp, login } = require('./controllers/auth.controller');
 
 const router = express.Router();
 
-/* GET home page. */
 router.get('/', function (req, res) {
-  res.render('index', { title: 'Express' });
+  res.json('hello!');
 });
+
+router.post('/signup', signUp);
+
+router.post('/login', login);
 
 module.exports = router;
