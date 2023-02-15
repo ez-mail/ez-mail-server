@@ -27,6 +27,23 @@ exports.getLastSentEmailTemplate = async (userId, next) => {
   }
 };
 
+exports.getEmailTemplates = async (userId, next) => {
+  try {
+    if (!mongoose.isValidObjectId(userId)) {
+      return next({ status: 400, message: INVALID_USER_ID });
+    }
+
+    const user = await User.findById(userId).lean();
+    const emailTemplates = await EmailTemplate.find({
+      _id: { $in: user.emailTemplates },
+    });
+
+    return emailTemplates;
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.getSubscribersTrend = async (userId, next) => {
   try {
     if (!mongoose.isValidObjectId(userId)) {

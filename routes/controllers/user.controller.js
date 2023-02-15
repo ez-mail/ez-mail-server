@@ -1,15 +1,19 @@
 const userService = require('../../services/user.service');
 
-exports.getLastSentEmailTemplate = async function (req, res, next) {
+exports.getEmailTemplates = async function (req, res, next) {
   try {
     const { user_id: userId } = req.params;
+    if (req.query?.send_date === 'last') {
+      const lastSentEmailTemplate = await userService.getLastSentEmailTemplate(
+        userId,
+        next,
+      );
 
-    const lastSentEmailTemplate = await userService.getLastSentEmailTemplate(
-      userId,
-      next,
-    );
-
-    res.json(lastSentEmailTemplate);
+      res.json(lastSentEmailTemplate);
+    } else {
+      const emailTemplates = await userService.getEmailTemplates(userId, next);
+      res.json(emailTemplates);
+    }
   } catch (error) {
     next(error);
   }
