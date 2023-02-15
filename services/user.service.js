@@ -102,3 +102,9 @@ exports.getSubscribersTrend = async (userId, next) => {
     next(error);
   }
 };
+
+exports.getUserName = async function (userId) {
+  const user = await User.findById(userId).lean();
+
+  return user.userName;
+};

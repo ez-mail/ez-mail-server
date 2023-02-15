@@ -4,7 +4,7 @@ const User = require('../models/User');
 const { ERROR_MESSAGE } = require('../constants');
 const { saltRound } = require('../config');
 
-exports.createUser = async ({ email, password, userName, next }) => {
+exports.createUser = async ({ email, password, userName }, next) => {
   try {
     const user = await User.findOne({ email }).lean();
     if (user) {

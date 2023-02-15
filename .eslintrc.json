@@ -6,7 +6,8 @@
   },
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "rules": {
-    "consistent-return": "warn"
+    "consistent-return": "warn",
+    "no-underscore-dangle": "off"
   },
   "parserOptions": {
     "ecmaVersion": 2022
