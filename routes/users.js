@@ -6,9 +6,15 @@ const {
 } = require('./controllers/user.controller');
 const {
   createNewEmailTemplate,
+  getEditingOrCompleteEmailTemplate,
 } = require('./controllers/emailTemplate.controller');
 
 const router = express.Router();
+
+router.get(
+  '/:user_id/email-templates/:email_template_id',
+  getEditingOrCompleteEmailTemplate,
+);
 
 router.get('/:user_id/email-templates', getEmailTemplates);
 

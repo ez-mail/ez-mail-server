@@ -9,3 +9,9 @@ exports.createNewEmailTemplate = async function (userName) {
 
   return result;
 };
+
+exports.getEmailTemplateByEmailId = async function (emailId) {
+  const emailTemplate = await EmailTemplate.findById(emailId).exec();
+
+  return emailTemplate;
+};
