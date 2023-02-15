@@ -3,20 +3,24 @@ const mongoose = require('mongoose');
 const emailTemplateSchema = new mongoose.Schema(
   {
     editingStep: {
-      type: Number,
-      required: true,
+      type: String,
+      default: '01',
     },
     emailTitle: {
       type: String,
+      default: '제목없음',
     },
     emailContent: {
       type: String,
+      default: '',
     },
     sender: {
       type: String,
+      required: true,
     },
     emailPreviewText: {
       type: String,
+      default: '',
     },
     recipients: [
       {
