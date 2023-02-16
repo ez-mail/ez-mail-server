@@ -1,13 +1,14 @@
 const passport = require('passport');
 
-const { createUser } = require('../../services/auth.service');
+const { createUser } = require('../../services/user.service');
 
 exports.signUp = async function (req, res, next) {
   try {
     const userDTO = req.body;
-    await createUser(userDTO, next);
 
-    res.status(201).json();
+    await createUser(userDTO);
+
+    res.sendStatus(201);
   } catch (error) {
     next(error);
   }
