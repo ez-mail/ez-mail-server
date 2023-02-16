@@ -6,7 +6,7 @@ const User = require('../models/User');
 const { saltRound } = require('../config');
 const { INVALID_USER_ID, ERROR_MESSAGE } = require('../constants');
 
-exports.createUser = async ({ email, password, userName }) => {
+exports.createUser = async function ({ email, password, userName }) {
   const targetUser = await User.findOne({ email }).lean();
 
   if (targetUser) {
@@ -20,7 +20,7 @@ exports.createUser = async ({ email, password, userName }) => {
   await User.create({ email, password: hashedPassword, userName, cdnCode });
 };
 
-exports.verifyUser = async (email, password, done) => {
+exports.verifyUser = async function (email, password, done) {
   try {
     const targetUser = await User.findOne({ email }).lean();
 
