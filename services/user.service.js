@@ -114,3 +114,14 @@ exports.getSubscribersListByUserId = async function (userId) {
 
   return subscribers;
 };
+
+exports.addNewSubscribersByUserId = async function (
+  userId,
+  newSubscribersArray,
+) {
+  const targetUser = await User.findById(userId).exec();
+
+  targetUser.subscribers = [...targetUser.subscribers, ...newSubscribersArray];
+
+  await targetUser.save();
+};

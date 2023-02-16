@@ -3,6 +3,7 @@ const express = require('express');
 const {
   getEmailTemplates,
   getSubscribersTrend,
+  addNewSubscribers,
   getSubscribersList,
 } = require('./controllers/user.controller');
 const {
@@ -27,5 +28,7 @@ router.post('/:user_id/email-templates', createNewEmailTemplate);
 router.get('/:user_id/subscribers/trend', getSubscribersTrend);
 
 router.get('/:user_id/subscribers', getSubscribersList);
+
+router.post('/:user_id/subscribers', addNewSubscribers);
 
 module.exports = router;
