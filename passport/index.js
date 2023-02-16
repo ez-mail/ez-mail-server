@@ -2,7 +2,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/User');
-const { verifyUser } = require('../services/auth.service');
+const { verifyUser } = require('../services/user.service');
 const { ERROR_MESSAGE } = require('../constants');
 
 module.exports = () => {

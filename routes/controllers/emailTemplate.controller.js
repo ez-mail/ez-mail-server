@@ -1,12 +1,33 @@
 const {
+  getLastSentEmailTemplate,
   createNewEmailTemplate,
-  getEmailTemplateByEmailId,
+  getEmailTemplate,
+  getEmailTemplates,
   updateEmailTemplate,
 } = require('../../services/emailTemplate.service');
 const {
   getUserName,
   addEmailIdToUser,
+  getTargetUser,
 } = require('../../services/user.service');
+
+exports.getEmailTemplates = async function (req, res, next) {
+  try {
+    const targetUser = await getTargetUser(req.params.user_id);
+
+    if (req.query?.send_date === 'last') {
+      const lastSentEmailTemplate = await getLastSentEmailTemplate(targetUser);
+
+      return res.json(lastSentEmailTemplate);
+    }
+
+    const emailTemplates = await getEmailTemplates(targetUser);
+
+    res.json(emailTemplates);
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.createNewEmailTemplate = async function (req, res, next) {
   try {
@@ -24,9 +45,7 @@ exports.createNewEmailTemplate = async function (req, res, next) {
 
 exports.getEditingOrCompleteEmailTemplate = async function (req, res, next) {
   try {
-    const emailTemplate = await getEmailTemplateByEmailId(
-      req.params.email_template_id,
-    );
+    const emailTemplate = await getEmailTemplate(req.params.email_template_id);
 
     res.json(emailTemplate);
   } catch (err) {

@@ -1,6 +1,6 @@
 module.exports = {
   port: process.env.PORT,
   databaseURI: process.env.MONGODB_URI,
-  saltRound: process.env.SALTROUND,
+  saltRound: process.env.SALT_ROUND,
   cookieSecret: process.env.SECRET_KEY,
 };

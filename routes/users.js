@@ -1,12 +1,12 @@
 const express = require('express');
 
 const {
-  getEmailTemplates,
   getSubscribersTrend,
   addNewSubscribers,
   getSubscribersList,
-} = require('./controllers/user.controller');
+} = require('./controllers/subscriber.controller');
 const {
+  getEmailTemplates,
   createNewEmailTemplate,
   getEditingOrCompleteEmailTemplate,
   editEmailTemplate,

@@ -1,127 +1,112 @@
 const mongoose = require('mongoose');
+const createError = require('http-errors');
+const bcrypt = require('bcryptjs');
 
-const EmailTemplate = require('../models/EmailTemplate');
 const User = require('../models/User');
-const { INVALID_USER_ID } = require('../constants');
+const { saltRound } = require('../config');
+const { INVALID_USER_ID, ERROR_MESSAGE } = require('../constants');
 
-exports.getLastSentEmailTemplate = async (userId, next) => {
+exports.createUser = async ({ email, password, userName }) => {
+  const targetUser = await User.findOne({ email }).lean();
+
+  if (targetUser) {
+    throw createError(400, ERROR_MESSAGE.EXIST_EMAIL);
+  }
+
+  const cdnCode = 'test'; // 임시코드
+
+  const salt = await bcrypt.genSalt(Number(saltRound));
+  const hashedPassword = await bcrypt.hash(password, salt);
+  await User.create({ email, password: hashedPassword, userName, cdnCode });
+};
+
+exports.verifyUser = async (email, password, done) => {
   try {
-    if (!mongoose.isValidObjectId(userId)) {
-      return next({ status: 400, message: INVALID_USER_ID });
+    const targetUser = await User.findOne({ email }).lean();
+
+    if (!targetUser) {
+      return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_EMAIL });
     }
 
-    const user = await User.findById(userId).lean();
-    const emailTemplates = await EmailTemplate.find({
-      _id: { $in: user.emailTemplates },
-    });
-    const lastSentEmailTemplate =
-      emailTemplates.length > 0
-        ? emailTemplates.reduce((prev, current) => {
-            return prev.endSendDate >= current.endSendDate ? prev : current;
-          })
-        : null;
+    const isMatched = await bcrypt.compare(password, targetUser.password);
 
-    return lastSentEmailTemplate;
+    if (!isMatched) {
+      return done(null, false, { message: ERROR_MESSAGE.INVALID_PASSWORD });
+    }
+
+    return done(null, targetUser);
   } catch (error) {
-    next(error);
+    return done(error);
   }
 };
 
-exports.getEmailTemplates = async (userId, next) => {
-  try {
-    if (!mongoose.isValidObjectId(userId)) {
-      return next({ status: 400, message: INVALID_USER_ID });
-    }
-
-    const user = await User.findById(userId).lean();
-    const emailTemplates = await EmailTemplate.find({
-      _id: { $in: user.emailTemplates },
-    });
-
-    return emailTemplates;
-  } catch (error) {
-    next(error);
+exports.getTargetUser = async function (userId) {
+  if (!mongoose.isValidObjectId(userId)) {
+    throw createError(400, INVALID_USER_ID);
   }
+
+  const targetUser = await User.findById(userId).lean();
+
+  return targetUser;
 };
 
-exports.getSubscribersTrend = async (userId, next) => {
-  try {
-    if (!mongoose.isValidObjectId(userId)) {
-      return next({ status: 400, message: INVALID_USER_ID });
-    }
-    const user = await User.findById(userId).lean();
-    const signInDates = [];
-    user.subscribers.forEach(value => {
-      signInDates.push(value.createdAt);
-    });
-
-    const weekDates = [];
-    for (let i = 0; i <= 7; i += 1) {
-      const today = new Date();
-      weekDates.push(new Date(today.setDate(today.getDate() - i)));
-    }
-
-    const dailyTrends = [0, 0, 0, 0, 0, 0, 0];
-    for (let i = 0; i < signInDates.length; i += 1) {
-      if (signInDates[i] >= weekDates[0]) {
-        dailyTrends[6] += 1;
-      } else if (
-        signInDates[i] < weekDates[0] &&
-        signInDates[i] > weekDates[1]
-      ) {
-        dailyTrends[5] += 1;
-      } else if (
-        signInDates[i] < weekDates[1] &&
-        signInDates[i] > weekDates[2]
-      ) {
-        dailyTrends[4] += 1;
-      } else if (
-        signInDates[i] < weekDates[2] &&
-        signInDates[i] > weekDates[3]
-      ) {
-        dailyTrends[3] += 1;
-      } else if (
-        signInDates[i] < weekDates[3] &&
-        signInDates[i] > weekDates[4]
-      ) {
-        dailyTrends[2] += 1;
-      } else if (
-        signInDates[i] < weekDates[4] &&
-        signInDates[i] > weekDates[5]
-      ) {
-        dailyTrends[1] += 1;
-      } else if (
-        signInDates[i] < weekDates[5] &&
-        signInDates[i] > weekDates[6]
-      ) {
-        dailyTrends[0] += 1;
-      }
-    }
-    return dailyTrends;
-  } catch (error) {
-    next(error);
+exports.getSubscribersTrend = async function (userId) {
+  if (!mongoose.isValidObjectId(userId)) {
+    throw createError(400, INVALID_USER_ID);
   }
+
+  const targetUser = await User.findById(userId).lean();
+
+  const signInDates = [];
+  const weekDates = [];
+
+  targetUser.subscribers.forEach(value => {
+    signInDates.push(value.createdAt);
+  });
+
+  for (let i = 0; i <= 7; i += 1) {
+    const today = new Date();
+
+    weekDates.push(new Date(today.setDate(today.getDate() - i)));
+  }
+
+  const dailyTrends = [0, 0, 0, 0, 0, 0, 0];
+  for (let i = 0; i < signInDates.length; i += 1) {
+    if (signInDates[i] >= weekDates[0]) {
+      dailyTrends[6] += 1;
+    } else if (signInDates[i] < weekDates[0] && signInDates[i] > weekDates[1]) {
+      dailyTrends[5] += 1;
+    } else if (signInDates[i] < weekDates[1] && signInDates[i] > weekDates[2]) {
+      dailyTrends[4] += 1;
+    } else if (signInDates[i] < weekDates[2] && signInDates[i] > weekDates[3]) {
+      dailyTrends[3] += 1;
+    } else if (signInDates[i] < weekDates[3] && signInDates[i] > weekDates[4]) {
+      dailyTrends[2] += 1;
+    } else if (signInDates[i] < weekDates[4] && signInDates[i] > weekDates[5]) {
+      dailyTrends[1] += 1;
+    } else if (signInDates[i] < weekDates[5] && signInDates[i] > weekDates[6]) {
+      dailyTrends[0] += 1;
+    }
+  }
+  return dailyTrends;
 };
 
 exports.getUserName = async function (userId) {
-  const user = await User.findById(userId).lean();
+  const { userName } = await User.findById(userId).lean();
 
-  return user.userName;
+  return userName;
 };
 
-exports.getSubscribersListByUserId = async function (userId) {
-  const { subscribers } = await User.findById(userId).exec();
+exports.getSubscribersList = async function (userId) {
+  const { subscribers } = await User.findById(userId).lean();
 
   return subscribers;
 };
 
-exports.addNewSubscribersByUserId = async function (
-  userId,
-  newSubscribersArray,
-) {
+exports.addNewSubscribers = async function (userId, newSubscribersArray) {
   const targetUser = await User.findById(userId).exec();
 
-  targetUser.subscribers = [...targetUser.subscribers, ...newSubscribersArray];
+  targetUser.subscribers.push(...newSubscribersArray);
 
   await targetUser.save();
 };
