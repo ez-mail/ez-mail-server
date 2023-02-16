@@ -34,3 +34,17 @@ exports.getSubscribersTrend = async function (req, res, next) {
     next(error);
   }
 };
+
+exports.getSubscribersList = async function (req, res, next) {
+  try {
+    const subscribers = await userService.getSubscribersListByUserId(
+      req.params.user_id,
+    );
+
+    res.json({
+      subscribers,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

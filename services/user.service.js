@@ -108,3 +108,9 @@ exports.getUserName = async function (userId) {
 
   return user.userName;
 };
+
+exports.getSubscribersListByUserId = async function (userId) {
+  const { subscribers } = await User.findById(userId).exec();
+
+  return subscribers;
+};
