@@ -125,3 +125,7 @@ exports.getUserSendingInfo = async function (userId) {
 
   return { userName, companyName, address, contact, cdnCode };
 };
+
+exports.updateUserSendingInfo = async function (userId, update) {
+  await User.findByIdAndUpdate(userId, update);
+};
