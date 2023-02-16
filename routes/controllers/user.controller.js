@@ -48,3 +48,16 @@ exports.getSubscribersList = async function (req, res, next) {
     next(error);
   }
 };
+
+exports.addNewSubscribers = async function (req, res, next) {
+  try {
+    await userService.addNewSubscribersByUserId(
+      req.params.user_id,
+      req.body.subscribers,
+    );
+
+    res.sendStatus(201);
+  } catch (error) {
+    next(error);
+  }
+};
