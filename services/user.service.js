@@ -103,10 +103,10 @@ exports.getSubscribersList = async function (userId) {
   return subscribers;
 };
 
-exports.addNewSubscribers = async function (userId, newSubscribersArray) {
+exports.addNewSubscribers = async function (userId, newSubscribers) {
   const targetUser = await User.findById(userId).exec();
 
-  targetUser.subscribers.push(...newSubscribersArray);
+  targetUser.subscribers.push(...newSubscribers);
 
   await targetUser.save();
 };
@@ -117,4 +117,11 @@ exports.addEmailIdToUser = async function (userId, emailId) {
   targetUser.emailTemplates.push(mongoose.Types.ObjectId(emailId));
 
   await targetUser.save();
+};
+
+exports.getUserSendingInfo = async function (userId) {
+  const { userName, companyName, address, contact, cdnCode } =
+    await User.findById(userId).lean();
+
+  return { userName, companyName, address, contact, cdnCode };
 };

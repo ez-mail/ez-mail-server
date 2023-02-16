@@ -6,8 +6,7 @@ const {
 
 exports.getSubscribersTrend = async function (req, res, next) {
   try {
-    const { user_id: userId } = req.params;
-    const subscribersTrend = await getSubscribersTrend(userId);
+    const subscribersTrend = await getSubscribersTrend(req.params.user_id);
 
     res.json(subscribersTrend);
   } catch (error) {
