@@ -48,12 +48,15 @@ const userSchema = new mongoose.Schema(
     },
     companyName: {
       type: String,
+      default: '',
     },
     address: {
       type: String,
+      default: '',
     },
     contact: {
       type: String,
+      default: '',
     },
     subscribers: [subscriberSchema],
     emailTemplates: [

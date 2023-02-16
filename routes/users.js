@@ -11,6 +11,7 @@ const {
   getEditingOrCompleteEmailTemplate,
   editEmailTemplate,
 } = require('./controllers/emailTemplate.controller');
+const { getUserSendingInfo } = require('./controllers/user.controller');
 
 const router = express.Router();
 
@@ -25,10 +26,12 @@ router.get('/:user_id/email-templates', getEmailTemplates);
 
 router.post('/:user_id/email-templates', createNewEmailTemplate);
 
-router.get('/:user_id/subscribers/trend', getSubscribersTrend);
-
 router.get('/:user_id/subscribers', getSubscribersList);
 
 router.post('/:user_id/subscribers', addNewSubscribers);
+
+router.get('/:user_id/sending-info', getUserSendingInfo);
+
+router.get('/:user_id/subscribers/trend', getSubscribersTrend);
 
 module.exports = router;
