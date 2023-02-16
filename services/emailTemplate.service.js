@@ -15,3 +15,7 @@ exports.getEmailTemplateByEmailId = async function (emailId) {
 
   return emailTemplate;
 };
+
+exports.updateEmailTemplate = async function (emailId, update) {
+  await EmailTemplate.findByIdAndUpdate(emailId, update);
+};

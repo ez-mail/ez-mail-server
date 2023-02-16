@@ -1,6 +1,7 @@
 const {
   createNewEmailTemplate,
   getEmailTemplateByEmailId,
+  updateEmailTemplate,
 } = require('../../services/emailTemplate.service');
 const { getUserName } = require('../../services/user.service');
 
@@ -24,6 +25,16 @@ exports.getEditingOrCompleteEmailTemplate = async function (req, res, next) {
     );
 
     res.json(emailTemplate);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.editEmailTemplate = async function (req, res, next) {
+  try {
+    await updateEmailTemplate(req.params.email_template_id, req.body);
+
+    res.sendStatus(200);
   } catch (err) {
     next(err);
   }
