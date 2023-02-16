@@ -21,9 +21,11 @@ exports.getLastSentEmailTemplate = async function (targetUser) {
     _id: { $in: targetUser.emailTemplates },
   }).lean();
 
+  const sendedEmailTemplates = emailTemplates.filter(item => item.endSendDate);
+
   const lastSentEmailTemplate =
-    emailTemplates.length > 0
-      ? emailTemplates.reduce((prev, current) => {
+    sendedEmailTemplates.length > 0
+      ? sendedEmailTemplates.reduce((prev, current) => {
           return prev.endSendDate >= current.endSendDate ? prev : current;
         })
       : null;
