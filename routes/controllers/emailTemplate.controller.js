@@ -15,7 +15,7 @@ exports.getEmailTemplates = async function (req, res, next) {
   try {
     const targetUser = await getTargetUser(req.params.user_id);
 
-    if (req.query?.send_date === 'last') {
+    if (req.query.send_date === 'last' && req.query.count === '1') {
       const lastSentEmailTemplate = await getLastSentEmailTemplate(targetUser);
 
       return res.json(lastSentEmailTemplate);

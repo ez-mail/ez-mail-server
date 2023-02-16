@@ -8,8 +8,5 @@
   "rules": {
     "consistent-return": "warn",
     "no-underscore-dangle": "off"
-  },
-  "parserOptions": {
-    "ecmaVersion": 2022
   }
 }
