@@ -125,3 +125,11 @@ exports.addNewSubscribersByUserId = async function (
 
   await targetUser.save();
 };
+
+exports.addEmailIdToUser = async function (userId, emailId) {
+  const targetUser = await User.findById(userId).exec();
+
+  targetUser.emailTemplates.push(mongoose.Types.ObjectId(emailId));
+
+  await targetUser.save();
+};
