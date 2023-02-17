@@ -8,7 +8,7 @@ const { saltRound } = require('../../config');
 
 exports.signUp = async function (req, res, next) {
   try {
-    const { email, password, userName } = req.body;
+    const { email, userName, password } = req.body;
 
     const targetUser = await findUserByEmail(email);
 

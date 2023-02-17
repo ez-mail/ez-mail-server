@@ -4,7 +4,7 @@ const createError = require('http-errors');
 const User = require('../models/User');
 const { ERROR_MESSAGE } = require('../constants');
 
-exports.createUser = async function ({ email, password, userName, cdnCode }) {
+exports.createUser = async function (email, password, userName, cdnCode) {
   await User.create({ email, password, userName, cdnCode });
 };
 
