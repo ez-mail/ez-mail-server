@@ -12,7 +12,7 @@ module.exports = () => {
         passwordField: 'password',
       },
       async (email, password, done) => {
-        verifyUser(email, password, done);
+        await verifyUser(email, password, done);
       },
     ),
   );
@@ -26,12 +26,12 @@ module.exports = () => {
       const user = await findUser(email);
 
       if (!user) {
-        return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_EMAIL });
+        return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_USER });
       }
 
       done(null, user);
     } catch (err) {
-      done(err, false);
+      done(err);
     }
   });
 };

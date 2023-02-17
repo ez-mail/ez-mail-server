@@ -1,4 +1,5 @@
 const passport = require('passport');
+const createError = require('http-errors');
 
 const { createUser } = require('../../services/user.service');
 
@@ -15,12 +16,15 @@ exports.signUp = async function (req, res, next) {
 };
 
 exports.login = async function (req, res, next) {
-  try {
-    passport.authenticate('local', {
-      successRedirect: '/',
-      failureRedirect: '/login',
-    })(req, res, next);
-  } catch (error) {
-    next(error);
-  }
+  passport.authenticate('local', (serverError, user, info) => {
+    if (serverError) {
+      return next(serverError);
+    }
+
+    if (!user) {
+      return next(createError(400, info.message));
+    }
+
+    res.json({ userId: String(user._id) });
+  })(req, res, next);
 };

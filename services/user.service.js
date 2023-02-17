@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
 const { saltRound } = require('../config');
-const { INVALID_USER_ID, ERROR_MESSAGE } = require('../constants');
+const { ERROR_MESSAGE } = require('../constants');
 
 exports.createUser = async function ({ email, password, userName }) {
   const targetUser = await User.findOne({ email }).lean();
@@ -25,7 +25,7 @@ exports.verifyUser = async function (email, password, done) {
     const targetUser = await User.findOne({ email }).lean();
 
     if (!targetUser) {
-      return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_EMAIL });
+      return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_USER });
     }
 
     const isMatched = await bcrypt.compare(password, targetUser.password);
@@ -48,7 +48,7 @@ exports.findUser = async function (email) {
 
 exports.getTargetUser = async function (userId) {
   if (!mongoose.isValidObjectId(userId)) {
-    throw createError(400, INVALID_USER_ID);
+    throw createError(400, ERROR_MESSAGE.INVALID_USER_ID);
   }
 
   const targetUser = await User.findById(userId).lean();
@@ -58,7 +58,7 @@ exports.getTargetUser = async function (userId) {
 
 exports.getSubscribersTrend = async function (userId) {
   if (!mongoose.isValidObjectId(userId)) {
-    throw createError(400, INVALID_USER_ID);
+    throw createError(400, ERROR_MESSAGE.INVALID_USER_ID);
   }
 
   const targetUser = await User.findById(userId).lean();
