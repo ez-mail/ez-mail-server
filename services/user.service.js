@@ -1,52 +1,20 @@
 const mongoose = require('mongoose');
 const createError = require('http-errors');
-const bcrypt = require('bcryptjs');
 
 const User = require('../models/User');
-const { saltRound } = require('../config');
 const { ERROR_MESSAGE } = require('../constants');
 
-exports.createUser = async function ({ email, password, userName }) {
+exports.createUser = async function ({ email, password, userName, cdnCode }) {
+  await User.create({ email, password, userName, cdnCode });
+};
+
+exports.findUserByEmail = async function (email) {
   const targetUser = await User.findOne({ email }).lean();
-
-  if (targetUser) {
-    throw createError(400, ERROR_MESSAGE.EXIST_EMAIL);
-  }
-
-  const cdnCode = 'test'; // 임시코드
-
-  const salt = await bcrypt.genSalt(Number(saltRound));
-  const hashedPassword = await bcrypt.hash(password, salt);
-  await User.create({ email, password: hashedPassword, userName, cdnCode });
-};
-
-exports.verifyUser = async function (email, password, done) {
-  try {
-    const targetUser = await User.findOne({ email }).lean();
-
-    if (!targetUser) {
-      return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_USER });
-    }
-
-    const isMatched = await bcrypt.compare(password, targetUser.password);
-
-    if (!isMatched) {
-      return done(null, false, { message: ERROR_MESSAGE.INVALID_PASSWORD });
-    }
-
-    return done(null, targetUser);
-  } catch (error) {
-    return done(error);
-  }
-};
-
-exports.findUser = async function (email) {
-  const targetUser = await User.find({ email }).lean();
 
   return targetUser;
 };
 
-exports.getTargetUser = async function (userId) {
+exports.findUserByUserId = async function (userId) {
   if (!mongoose.isValidObjectId(userId)) {
     throw createError(400, ERROR_MESSAGE.INVALID_USER_ID);
   }

@@ -8,12 +8,12 @@ const {
 const {
   getUserName,
   addEmailIdToUser,
-  getTargetUser,
+  findUserByUserId,
 } = require('../../services/user.service');
 
 exports.getEmailTemplates = async function (req, res, next) {
   try {
-    const targetUser = await getTargetUser(req.params.user_id);
+    const targetUser = await findUserByUserId(req.params.user_id);
 
     if (req.query.send_date === 'last' && req.query.count === '1') {
       const lastSentEmailTemplate = await getLastSentEmailTemplate(targetUser);
