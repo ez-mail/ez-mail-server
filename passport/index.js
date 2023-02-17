@@ -1,8 +1,8 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcryptjs');
 
-const User = require('../models/User');
-const { verifyUser } = require('../services/user.service');
+const { findUserByEmail } = require('../services/user.service');
 const { ERROR_MESSAGE } = require('../constants');
 
 module.exports = () => {
@@ -13,7 +13,19 @@ module.exports = () => {
         passwordField: 'password',
       },
       async (email, password, done) => {
-        verifyUser(email, password, done);
+        const targetUser = await findUserByEmail(email);
+
+        if (!targetUser) {
+          return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_USER });
+        }
+
+        const isMatched = await bcrypt.compare(password, targetUser.password);
+
+        if (!isMatched) {
+          return done(null, false, { message: ERROR_MESSAGE.INVALID_PASSWORD });
+        }
+
+        done(null, targetUser);
       },
     ),
   );
@@ -24,14 +36,15 @@ module.exports = () => {
 
   passport.deserializeUser(async (email, done) => {
     try {
-      const user = await User.find({ email }).lean();
-      if (!user) {
-        return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_EMAIL });
+      const targetUser = await findUserByEmail(email);
+
+      if (!targetUser) {
+        return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_USER });
       }
 
-      done(null, user);
+      done(null, targetUser);
     } catch (err) {
-      done(err, false);
+      done(err);
     }
   });
 };
