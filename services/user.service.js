@@ -40,6 +40,12 @@ exports.verifyUser = async function (email, password, done) {
   }
 };
 
+exports.findUser = async function (email) {
+  const targetUser = await User.find({ email }).lean();
+
+  return targetUser;
+};
+
 exports.getTargetUser = async function (userId) {
   if (!mongoose.isValidObjectId(userId)) {
     throw createError(400, INVALID_USER_ID);

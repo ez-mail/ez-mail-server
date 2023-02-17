@@ -1,8 +1,7 @@
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-const User = require('../models/User');
-const { verifyUser } = require('../services/user.service');
+const { verifyUser, findUser } = require('../services/user.service');
 const { ERROR_MESSAGE } = require('../constants');
 
 module.exports = () => {
@@ -24,7 +23,8 @@ module.exports = () => {
 
   passport.deserializeUser(async (email, done) => {
     try {
-      const user = await User.find({ email }).lean();
+      const user = await findUser(email);
+
       if (!user) {
         return done(null, false, { message: ERROR_MESSAGE.NOT_EXIST_EMAIL });
       }
