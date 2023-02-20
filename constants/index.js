@@ -9,4 +9,6 @@ exports.ERROR_MESSAGE = {
   INVALID_USER_ID: '잘못된 USER_ID입니다.',
   INVALID_EMAIL_FORM:
     '이메일 형식을 지켜주세요, example@service.com 형식으로 입력해주세요',
+  NEED_LOGIN: '먼저 로그인을 해주세요.',
+  NEED_LOGOUT: '먼저 로그아웃을 해주세요.',
 };

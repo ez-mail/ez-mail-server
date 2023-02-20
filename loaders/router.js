@@ -1,7 +1,8 @@
-const index = require('../routes/index');
+const auth = require('../routes/auth');
+const { validateLogin } = require('../routes/middleWares/authValidation');
 const users = require('../routes/users');
 
 module.exports = app => {
-  app.use('/', index);
-  app.use('/users', users);
+  app.use('/', auth);
+  app.use('/users', validateLogin, users);
 };
