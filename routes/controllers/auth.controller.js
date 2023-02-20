@@ -38,6 +38,22 @@ exports.login = async function (req, res, next) {
       return next(createError(400, info.message));
     }
 
-    res.json({ userId: String(user._id) });
+    return req.login(user, loginError => {
+      if (loginError) {
+        return next(loginError);
+      }
+
+      res.json({ userId: String(user._id) });
+    });
   })(req, res, next);
+};
+
+exports.logout = function (req, res, next) {
+  req.logout(error => {
+    if (error) {
+      return next(error);
+    }
+
+    res.sendStatus(200);
+  });
 };
