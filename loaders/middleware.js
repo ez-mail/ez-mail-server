@@ -3,10 +3,17 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
+const cors = require('cors');
 
-const { cookieSecret } = require('../config');
+const { cookieSecret, clientOrigin } = require('../config');
 
 module.exports = app => {
+  app.use(
+    cors({
+      origin: clientOrigin,
+      optionsSuccessStatus: 200,
+    }),
+  );
   app.use(
     session({
       resave: false,
