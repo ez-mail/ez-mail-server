@@ -37,15 +37,11 @@ exports.addNewSubscribers = async function (req, res, next) {
   }
 };
 
-exports.deleteAndGetSubscribers = async function (req, res, next) {
+exports.deleteSubscribers = async function (req, res, next) {
   try {
     await deleteSubscribers(req.params.user_id, req.body.subscribers);
 
-    const subscribers = await getSubscribersList(req.params.user_id);
-
-    res.json({
-      subscribers,
-    });
+    res.sendStatus(200);
   } catch (error) {
     next(error);
   }
