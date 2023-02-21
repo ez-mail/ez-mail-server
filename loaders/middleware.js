@@ -11,6 +11,7 @@ module.exports = app => {
   app.use(
     cors({
       origin: clientOrigin,
+      credentials: true,
       optionsSuccessStatus: 200,
     }),
   );
