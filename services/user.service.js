@@ -85,15 +85,6 @@ exports.addNewSubscribers = async function (userId, newSubscribers) {
   await targetUser.save();
 };
 
-exports.deleteSubscribers = async function (userId, subscribers) {
-  await User.updateOne(
-    { _id: userId },
-    {
-      $pull: { subscribers: { _id: { $in: subscribers } } },
-    },
-  );
-};
-
 exports.addEmailIdToUser = async function (userId, emailId) {
   const targetUser = await User.findById(userId).exec();
 
