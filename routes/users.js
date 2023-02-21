@@ -4,6 +4,7 @@ const {
   getSubscribersTrend,
   addNewSubscribers,
   getSubscribersList,
+  deleteAndGetSubscribers,
 } = require('./controllers/subscriber.controller');
 const {
   getEmailTemplates,
@@ -32,6 +33,8 @@ router.post('/:user_id/email-templates', createNewEmailTemplate);
 router.get('/:user_id/subscribers', getSubscribersList);
 
 router.post('/:user_id/subscribers', addNewSubscribers);
+
+router.delete('/:user_id/subscribers', deleteAndGetSubscribers);
 
 router.get('/:user_id/sending-info', getUserSendingInfo);
 
