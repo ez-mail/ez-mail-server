@@ -11,10 +11,14 @@ module.exports = app => {
   app.use(
     cors({
       origin: clientOrigin,
+      methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
       credentials: true,
-      optionsSuccessStatus: 200,
     }),
   );
+  app.use(logger('dev'));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(cookieParser(cookieSecret));
   app.use(
     session({
       resave: false,
@@ -24,13 +28,9 @@ module.exports = app => {
         httpOnly: true,
         secure: false,
       },
-      name: 'session-cookie',
+      name: 'sessionId',
     }),
   );
   app.use(passport.initialize());
   app.use(passport.session());
-  app.use(logger('dev'));
-  app.use(express.json());
-  app.use(express.urlencoded({ extended: false }));
-  app.use(cookieParser());
 };

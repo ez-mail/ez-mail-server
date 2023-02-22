@@ -43,7 +43,9 @@ exports.login = async function (req, res, next) {
         return next(loginError);
       }
 
-      res.json({ userId: String(user._id) });
+      res.json({
+        userId: user._id,
+      });
     });
   })(req, res, next);
 };
