@@ -4,11 +4,13 @@ const {
   getEmailTemplate,
   getEmailTemplates,
   updateEmailTemplate,
+  deleteEmailTemplate,
 } = require('../../services/emailTemplate.service');
 const {
   getUserName,
   addEmailIdToUser,
   findUserByUserId,
+  updateEmailIdToUser,
 } = require('../../services/user.service');
 
 exports.getEmailTemplates = async function (req, res, next) {
@@ -56,6 +58,18 @@ exports.getEditingOrCompleteEmailTemplate = async function (req, res, next) {
 exports.editEmailTemplate = async function (req, res, next) {
   try {
     await updateEmailTemplate(req.params.email_template_id, req.body);
+
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.deleteEmailTemplate = async function (req, res, next) {
+  try {
+    await deleteEmailTemplate(req.params.email_template_id);
+
+    await updateEmailIdToUser(req.params.user_id, req.params.email_template_id);
 
     res.sendStatus(200);
   } catch (err) {

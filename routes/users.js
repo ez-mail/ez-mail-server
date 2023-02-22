@@ -11,6 +11,7 @@ const {
   createNewEmailTemplate,
   getEditingOrCompleteEmailTemplate,
   editEmailTemplate,
+  deleteEmailTemplate,
 } = require('./controllers/emailTemplate.controller');
 const {
   getUserSendingInfo,
@@ -25,6 +26,11 @@ router.get(
 );
 
 router.patch('/:user_id/email-templates/:email_template_id', editEmailTemplate);
+
+router.delete(
+  '/:user_id/email-templates/:email_template_id',
+  deleteEmailTemplate,
+);
 
 router.get('/:user_id/email-templates', getEmailTemplates);
 

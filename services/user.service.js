@@ -112,3 +112,7 @@ exports.getUserSendingInfo = async function (userId) {
 exports.updateUserSendingInfo = async function (userId, update) {
   await User.findByIdAndUpdate(userId, update);
 };
+
+exports.updateEmailIdToUser = async function (userId, emailId) {
+  await User.updateOne({ _id: userId }, { $pull: { emailTemplates: emailId } });
+};

@@ -44,3 +44,7 @@ exports.getEmailTemplates = async function (targetUser) {
 exports.updateEmailTemplate = async function (emailId, update) {
   await EmailTemplate.findByIdAndUpdate(emailId, update);
 };
+
+exports.deleteEmailTemplate = async function (emailId) {
+  await EmailTemplate.deleteOne({ _id: emailId });
+};
