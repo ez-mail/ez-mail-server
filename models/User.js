@@ -48,15 +48,15 @@ const userSchema = new mongoose.Schema(
     },
     companyName: {
       type: String,
-      default: '',
+      default: '발신자 설정페이지에서 회사이름을 설정해주세요',
     },
     address: {
       type: String,
-      default: '',
+      default: '발신자 설정페이지에서 주소를 설정해주세요',
     },
     contact: {
       type: String,
-      default: '',
+      default: '발신자 설정페이지에서 전화번호를 설정해주세요',
     },
     subscribers: [subscriberSchema],
     emailTemplates: [
