@@ -1,5 +1,53 @@
 const mongoose = require('mongoose');
 
+const emailContentDefault = {
+  emailBodyStyle: { backgroundColor: '#f5f5f5' },
+  emailContainerStyle: {
+    backgroundColor: '#ffffff',
+    borderWidth: '0px',
+    borderColor: '#000000',
+    borderStyle: 'solid',
+    fontFamily:
+      'AppleSDGothic, "apple sd gothic neo", "noto sans korean", "noto sans korean regular", "noto sans cjk kr", "noto sans cjk", "nanum gothic", "malgun gothic", dotum, arial, helvetica, sans-serif',
+  },
+  emailFooter: {
+    companyOrUserName: '발신자 설정페이지에서 회사이름을 설정해주세요',
+    contact: '발신자 설정페이지에서 연락처를 설정해주세요',
+    address: '발신자 설정페이지에서 주소를 설정해주세요',
+    boxStyle: {
+      paddingTop: '25px',
+      paddingBottom: '25px',
+      textAlign: 'center',
+      fontSize: '12px',
+      color: '#757575',
+      lineHeight: '24px',
+    },
+  },
+  emailContents: [
+    {
+      id: 'default-text-7184',
+      type: 'text',
+      content: '왼쪽에서 원하는 도구 상자를 끌어오세요!',
+      boxStyle: {
+        backgroundColor: '#FFFFFF',
+        borderWidth: '0px',
+        borderColor: '#000000',
+        borderStyle: 'solid',
+        paddingTop: '15px',
+        paddingBottom: '15px',
+        paddingLeft: '0px',
+        paddingRight: '0px',
+        textAlign: 'center',
+      },
+      contentStyle: {
+        fontSize: '24px',
+        fontFamily:
+          'AppleSDGothic, "apple sd gothic neo", "noto sans korean", "noto sans korean regular", "noto sans cjk kr", "noto sans cjk", "nanum gothic", "malgun gothic", dotum, arial, helvetica, sans-serif',
+      },
+    },
+  ],
+};
+
 const emailTemplateSchema = new mongoose.Schema(
   {
     editingStep: {
@@ -12,8 +60,7 @@ const emailTemplateSchema = new mongoose.Schema(
     },
     emailContent: {
       type: String,
-      default:
-        '{"emailBodyStyle":{"backgroundColor":"#f5f5f5"},"emailContainerStyle":{"backgroundColor":"#ffffff","borderWidth":"0px","borderColor":"#000000","borderStyle":"solid","fontFamily":"AppleSDGothic, "apple sd gothic neo", "noto sans korean", "noto sans korean regular", "noto sans cjk kr", "noto sans cjk", "nanum gothic", "malgun gothic", dotum, arial, helvetica, sans-serif"},"emailFooter":{"companyOrUserName":"발신자 설정페이지에서 회사이름을 설정해주세요","contact":"발신자 설정페이지에서 전화번호를 설정해주세요","address":"발신자 설정페이지에서 주소를 설정해주세요","boxStyle":{"paddingTop":"25px","paddingBottom":"25px","textAlign":"center","fontSize":"12px","color":"#757575","lineHeight":"24px"}},"emailContents":[{"id":"default-text-content-7184","type":"text","content":"왼쪽에서 원하는 도구 상자를 끌어다 놓으세요!","boxStyle":{"backgroundColor":"#FFFFFF","borderWidth":"0px","borderColor":"#000000","borderStyle":"solid","paddingTop":"15px","paddingBottom":"15px","paddingLeft":"0px","paddingRight":"0px","textAlign":"center"},"contentStyle":{"fontSize":"24px","fontFamily":"AppleSDGothic, "apple sd gothic neo", "noto sans korean", "noto sans korean regular", "noto sans cjk kr", "noto sans cjk", "nanum gothic", "malgun gothic", dotum, arial, helvetica, sans-serif"}}]}',
+      default: JSON.stringify(emailContentDefault),
     },
     sender: {
       type: String,
