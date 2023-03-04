@@ -41,6 +41,7 @@ const emailContentDefault = {
       },
       contentStyle: {
         fontSize: '24px',
+        color: '#000000',
         fontFamily:
           'AppleSDGothic, "apple sd gothic neo", "noto sans korean", "noto sans korean regular", "noto sans cjk kr", "noto sans cjk", "nanum gothic", "malgun gothic", dotum, arial, helvetica, sans-serif',
       },
