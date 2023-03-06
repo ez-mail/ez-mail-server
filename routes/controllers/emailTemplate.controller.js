@@ -76,3 +76,9 @@ exports.deleteEmailTemplate = async function (req, res, next) {
     next(err);
   }
 };
+
+exports.sendEmailTemplate = async function (req, res, next) {
+  console.log('이메일 발송');
+
+  res.sendStatus(200);
+};
