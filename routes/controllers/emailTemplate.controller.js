@@ -12,6 +12,7 @@ const {
   findUserByUserId,
   updateEmailIdToUser,
 } = require('../../services/user.service');
+const { sendMail } = require('../../nodeMailer');
 
 exports.getEmailTemplates = async function (req, res, next) {
   try {
@@ -78,7 +79,32 @@ exports.deleteEmailTemplate = async function (req, res, next) {
 };
 
 exports.sendEmailTemplate = async function (req, res, next) {
-  console.log('이메일 발송');
+  try {
+    const { emailTitle, emailContent, sender, recipients } =
+      await getEmailTemplate(req.params.email_template_id);
 
-  res.sendStatus(200);
+    const { email } = await findUserByUserId(req.params.user_id);
+    const userName = email.split('@')[0];
+
+    const recipientsAddress = recipients.map(recipient => recipient.email);
+
+    const result = await sendMail({
+      emailTitle,
+      emailContent,
+      sender,
+      recipientsAddress,
+      userName,
+    });
+
+    const sendInfo = {
+      totalSendCount: recipientsAddress.length,
+      successSendCount: result.accepted.length,
+    };
+
+    await updateEmailTemplate(req.params.email_template_id, sendInfo);
+
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
 };
