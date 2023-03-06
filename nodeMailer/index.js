@@ -1,25 +1,25 @@
 const nodemailer = require('nodemailer');
-const { naverPort, naverId, naverPassword } = require('../config');
+const { smtpPort, smtpId, smtpPassword, smtpHost } = require('../config');
 
 exports.sendMail = async function ({
   emailTitle,
   emailContent,
   sender,
   recipientsAddress,
+  userName,
 }) {
   const transporter = nodemailer.createTransport({
-    service: 'naver',
-    host: 'smtp.naver.com',
-    port: naverPort,
-    secure: naverPort === 465,
+    host: smtpHost,
+    port: smtpPort,
+    secure: smtpPort === '465',
     auth: {
-      user: naverId,
-      pass: naverPassword,
+      user: smtpId,
+      pass: smtpPassword,
     },
   });
 
   const info = await transporter.sendMail({
-    from: `${sender} <${naverId}@naver.com>`,
+    from: `${sender || userName} <${smtpId}@naver.com>`,
     to: recipientsAddress,
     subject: emailTitle,
     html: emailContent,

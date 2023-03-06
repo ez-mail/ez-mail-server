@@ -4,7 +4,8 @@ module.exports = {
   saltRound: process.env.SALT_ROUND,
   cookieSecret: process.env.SECRET_KEY,
   clientOrigin: process.env.CLIENT_ORIGIN,
-  naverId: process.env.NAVER_ID,
-  naverPassword: process.env.NAVER_PASSWORD,
-  naverPort: process.env.NAVER_PORT,
+  smtpId: process.env.SMTP_ID,
+  smtpPassword: process.env.SMTP_PASSWORD,
+  smtpPort: process.env.SMTP_PORT,
+  smtpHost: process.env.SMTP_HOST,
 };

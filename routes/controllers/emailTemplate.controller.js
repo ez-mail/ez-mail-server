@@ -83,14 +83,25 @@ exports.sendEmailTemplate = async function (req, res, next) {
     const { emailTitle, emailContent, sender, recipients } =
       await getEmailTemplate(req.params.email_template_id);
 
+    const { email } = await findUserByUserId(req.params.user_id);
+    const userName = email.split('@')[0];
+
     const recipientsAddress = recipients.map(recipient => recipient.email);
 
-    await sendMail({
+    const result = await sendMail({
       emailTitle,
       emailContent,
       sender,
       recipientsAddress,
+      userName,
     });
+
+    const sendInfo = {
+      totalSendCount: recipientsAddress.length,
+      successSendCount: result.accepted.length,
+    };
+
+    await updateEmailTemplate(req.params.email_template_id, sendInfo);
 
     res.sendStatus(200);
   } catch (err) {
