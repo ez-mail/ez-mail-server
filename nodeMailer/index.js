@@ -1,5 +1,11 @@
 const nodemailer = require('nodemailer');
-const { smtpPort, smtpId, smtpPassword, smtpHost } = require('../config');
+const {
+  smtpPort,
+  smtpId,
+  smtpPassword,
+  smtpHost,
+  smtpDomain,
+} = require('../config');
 
 exports.sendMail = async function ({
   emailTitle,
@@ -19,7 +25,7 @@ exports.sendMail = async function ({
   });
 
   const info = await transporter.sendMail({
-    from: `${sender || userName} <${smtpId}@naver.com>`,
+    from: `${sender || userName} <${smtpId}@${smtpDomain}>`,
     to: recipientsAddress,
     subject: emailTitle,
     html: emailContent,
