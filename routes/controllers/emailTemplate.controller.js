@@ -12,6 +12,7 @@ const {
   findUserByUserId,
   updateEmailIdToUser,
 } = require('../../services/user.service');
+const { sendMail } = require('../../nodeMailer');
 
 exports.getEmailTemplates = async function (req, res, next) {
   try {
@@ -78,7 +79,21 @@ exports.deleteEmailTemplate = async function (req, res, next) {
 };
 
 exports.sendEmailTemplate = async function (req, res, next) {
-  console.log('이메일 발송');
+  try {
+    const { emailTitle, emailContent, sender, recipients } =
+      await getEmailTemplate(req.params.email_template_id);
 
-  res.sendStatus(200);
+    const recipientsAddress = recipients.map(recipient => recipient.email);
+
+    await sendMail({
+      emailTitle,
+      emailContent,
+      sender,
+      recipientsAddress,
+    });
+
+    res.sendStatus(200);
+  } catch (err) {
+    next(err);
+  }
 };
