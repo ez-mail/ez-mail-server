@@ -46,6 +46,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    accessToken: {
+      type: String,
+      required: true,
+    },
     companyName: {
       type: String,
       default: '발신자 설정페이지에서 회사이름을 설정해주세요',

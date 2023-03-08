@@ -3,6 +3,7 @@ const {
   getSubscribersList,
   addNewSubscribers,
   deleteSubscribers,
+  addValidExternalSubscriber,
 } = require('../../services/user.service');
 
 exports.getSubscribersTrend = async function (req, res, next) {
@@ -32,6 +33,23 @@ exports.addNewSubscribers = async function (req, res, next) {
     await addNewSubscribers(req.params.user_id, req.body.subscribers);
 
     res.sendStatus(201);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.addValidExternalSubscriber = async function (req, res, next) {
+  try {
+    const result = await addValidExternalSubscriber(
+      req.params.access_token,
+      req.body.subscriber,
+    );
+
+    if (result) {
+      res.sendStatus(201);
+    } else {
+      res.sendStatus(400);
+    }
   } catch (error) {
     next(error);
   }
