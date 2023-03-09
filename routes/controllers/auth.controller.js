@@ -6,7 +6,7 @@ const cryptoRandomString = require('crypto-random-string');
 const { createUser, findUserByEmail } = require('../../services/user.service');
 const { ERROR_MESSAGE } = require('../../constants');
 const { saltRound } = require('../../config');
-const makeSubscriptionForm = require('../../utils/makeSubscriptionForm');
+const getSubscriptionForm = require('../../utils/getSubscriptionForm');
 
 exports.signUp = async function (req, res, next) {
   try {
@@ -19,7 +19,7 @@ exports.signUp = async function (req, res, next) {
     }
 
     const accessToken = cryptoRandomString({ length: 16, type: 'url-safe' });
-    const cdnCode = makeSubscriptionForm(accessToken);
+    const cdnCode = getSubscriptionForm(accessToken);
 
     const salt = await bcrypt.genSalt(Number(saltRound));
     const hashedPassword = await bcrypt.hash(password, salt);

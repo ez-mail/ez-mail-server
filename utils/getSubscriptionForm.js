@@ -1,4 +1,4 @@
-module.exports = function makeSubscriptionForm(accessToken) {
+module.exports = function getSubscriptionForm(accessToken) {
   return `
     <!DOCTYPE html>
     <head>
