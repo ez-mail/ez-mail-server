@@ -11,4 +11,5 @@ exports.ERROR_MESSAGE = {
     '이메일 형식을 지켜주세요, example@service.com 형식으로 입력해주세요',
   NEED_LOGIN: '먼저 로그인을 해주세요.',
   NEED_LOGOUT: '먼저 로그아웃을 해주세요.',
+  MAIL_SERVER_ERROR: '메일 서버에 문제가 생겼습니다',
 };
