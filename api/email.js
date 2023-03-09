@@ -1,4 +1,5 @@
 const axios = require('axios');
+
 const { mailServerOrigin, mailServerApiKey } = require('../config');
 
 exports.requestSendingEmail = async function (
@@ -17,8 +18,6 @@ exports.requestSendingEmail = async function (
       recipients,
     },
   });
-
-  console.log('axios result', result);
 
   return result;
 };

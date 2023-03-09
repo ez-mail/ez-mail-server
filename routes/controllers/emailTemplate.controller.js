@@ -14,7 +14,6 @@ const {
   findUserByUserId,
   updateEmailIdToUser,
 } = require('../../services/user.service');
-const { sendMail } = require('../../nodeMailer');
 const { requestSendingEmail } = require('../../api/email');
 const { ERROR_MESSAGE } = require('../../constants');
 
