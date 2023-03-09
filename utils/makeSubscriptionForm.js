@@ -3,8 +3,8 @@ module.exports = function makeSubscriptionForm(accessToken) {
     <!DOCTYPE html>
     <head>
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/ez-mail/ez-mail-cdn@main/subscription.css">
-      <script defer src="https://cdn.jsdelivr.net/gh/ez-mail/ez-mail-cdn@main/subscription.js"></script>
+      <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/ez-mail/ez-mail-cdn@main/subscriptionForm.css">
+      <script defer src="https://cdn.jsdelivr.net/gh/ez-mail/ez-mail-cdn@main/subscriptionForm.js"></script>
     </head>
       <body>
         <div class="ez-wrapper">
