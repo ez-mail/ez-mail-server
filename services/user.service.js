@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const createError = require('http-errors');
+const moment = require('moment');
 
 const User = require('../models/User');
 const { ERROR_MESSAGE } = require('../constants');
@@ -38,36 +39,39 @@ exports.getSubscribersTrend = async function (userId) {
   const targetUser = await User.findById(userId).lean();
 
   const signInDates = [];
-  const weekDates = [];
 
   targetUser.subscribers.forEach(value => {
-    signInDates.push(value.createdAt);
+    if (value) {
+      signInDates.push(moment(value.createdAt).format());
+    }
   });
 
-  for (let i = 0; i <= 7; i += 1) {
-    const today = new Date();
-
-    weekDates.push(new Date(today.setDate(today.getDate() - i)));
-  }
-
   const dailyTrends = [0, 0, 0, 0, 0, 0, 0];
+
   for (let i = 0; i < signInDates.length; i += 1) {
-    if (signInDates[i] >= weekDates[0]) {
-      dailyTrends[6] += 1;
-    } else if (signInDates[i] < weekDates[0] && signInDates[i] > weekDates[1]) {
-      dailyTrends[5] += 1;
-    } else if (signInDates[i] < weekDates[1] && signInDates[i] > weekDates[2]) {
-      dailyTrends[4] += 1;
-    } else if (signInDates[i] < weekDates[2] && signInDates[i] > weekDates[3]) {
-      dailyTrends[3] += 1;
-    } else if (signInDates[i] < weekDates[3] && signInDates[i] > weekDates[4]) {
-      dailyTrends[2] += 1;
-    } else if (signInDates[i] < weekDates[4] && signInDates[i] > weekDates[5]) {
-      dailyTrends[1] += 1;
-    } else if (signInDates[i] < weekDates[5] && signInDates[i] > weekDates[6]) {
+    if (signInDates[i] < moment().startOf('day').add(-5, 'days').format()) {
       dailyTrends[0] += 1;
     }
+    if (signInDates[i] < moment().startOf('day').add(-4, 'days').format()) {
+      dailyTrends[1] += 1;
+    }
+    if (signInDates[i] < moment().startOf('day').add(-3, 'days').format()) {
+      dailyTrends[2] += 1;
+    }
+    if (signInDates[i] < moment().startOf('day').add(-2, 'days').format()) {
+      dailyTrends[3] += 1;
+    }
+    if (signInDates[i] < moment().startOf('day').add(-1, 'days').format()) {
+      dailyTrends[4] += 1;
+    }
+    if (signInDates[i] < moment().startOf('day').format()) {
+      dailyTrends[5] += 1;
+    }
+    if (signInDates[i] < moment().format()) {
+      dailyTrends[6] += 1;
+    }
   }
+
   return dailyTrends;
 };
 
