@@ -8,7 +8,7 @@ const {
 module.exports = app => {
   app.use('/', auth);
   app.post(
-    '/external-user/:access_token/external-subscriber',
+    '/users/:access_token/external-subscriber',
     addValidExternalSubscriber,
   );
   app.use('/users', validateLogin, users);
