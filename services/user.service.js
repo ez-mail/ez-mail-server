@@ -52,21 +52,27 @@ exports.getSubscribersTrend = async function (userId) {
     if (signInDates[i] < moment().startOf('day').add(-5, 'days').format()) {
       dailyTrends[0] += 1;
     }
+
     if (signInDates[i] < moment().startOf('day').add(-4, 'days').format()) {
       dailyTrends[1] += 1;
     }
+
     if (signInDates[i] < moment().startOf('day').add(-3, 'days').format()) {
       dailyTrends[2] += 1;
     }
+
     if (signInDates[i] < moment().startOf('day').add(-2, 'days').format()) {
       dailyTrends[3] += 1;
     }
+
     if (signInDates[i] < moment().startOf('day').add(-1, 'days').format()) {
       dailyTrends[4] += 1;
     }
+
     if (signInDates[i] < moment().startOf('day').format()) {
       dailyTrends[5] += 1;
     }
+
     if (signInDates[i] < moment().format()) {
       dailyTrends[6] += 1;
     }
