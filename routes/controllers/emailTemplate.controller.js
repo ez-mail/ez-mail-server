@@ -1,3 +1,5 @@
+const createError = require('http-errors');
+
 const {
   getLastSentEmailTemplate,
   createNewEmailTemplate,
@@ -13,6 +15,8 @@ const {
   updateEmailIdToUser,
 } = require('../../services/user.service');
 const { sendMail } = require('../../nodeMailer');
+const { requestSendingEmail } = require('../../api/email');
+const { ERROR_MESSAGE } = require('../../constants');
 
 exports.getEmailTemplates = async function (req, res, next) {
   try {
@@ -88,20 +92,18 @@ exports.sendEmailTemplate = async function (req, res, next) {
 
     const recipientsAddress = recipients.map(recipient => recipient.email);
 
-    const result = await sendMail({
+    const result = await requestSendingEmail(
       emailTitle,
       emailContent,
-      sender,
+      sender || userName,
       recipientsAddress,
-      userName,
-    });
+    );
 
-    const sendInfo = {
-      totalSendCount: recipientsAddress.length,
-      successSendCount: result.accepted.length,
-    };
+    if (result.status !== 200) {
+      return next(createError(500, ERROR_MESSAGE.MAIL_SERVER_ERROR));
+    }
 
-    await updateEmailTemplate(req.params.email_template_id, sendInfo);
+    await updateEmailTemplate(req.params.email_template_id, result.data);
 
     res.sendStatus(200);
   } catch (err) {
