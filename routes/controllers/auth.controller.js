@@ -1,10 +1,12 @@
 const passport = require('passport');
 const createError = require('http-errors');
 const bcrypt = require('bcryptjs');
+const cryptoRandomString = require('crypto-random-string');
 
 const { createUser, findUserByEmail } = require('../../services/user.service');
 const { ERROR_MESSAGE } = require('../../constants');
 const { saltRound } = require('../../config');
+const getSubscriptionForm = require('../../utils/getSubscriptionForm');
 
 exports.signUp = async function (req, res, next) {
   try {
@@ -16,11 +18,13 @@ exports.signUp = async function (req, res, next) {
       return next(createError(400, ERROR_MESSAGE.EXIST_EMAIL));
     }
 
-    const cdnCode = 'test'; // 임시코드
+    const accessToken = cryptoRandomString({ length: 16, type: 'url-safe' });
+    const cdnCode = getSubscriptionForm(accessToken);
+
     const salt = await bcrypt.genSalt(Number(saltRound));
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    await createUser(email, hashedPassword, userName, cdnCode);
+    await createUser(email, hashedPassword, userName, cdnCode, accessToken);
 
     res.sendStatus(201);
   } catch (error) {

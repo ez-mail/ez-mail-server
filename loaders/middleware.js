@@ -10,7 +10,7 @@ const { cookieSecret, clientOrigin } = require('../config');
 module.exports = app => {
   app.use(
     cors({
-      origin: clientOrigin,
+      origin: [clientOrigin, 'http://127.0.0.1:5500'],
       methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
       credentials: true,
     }),

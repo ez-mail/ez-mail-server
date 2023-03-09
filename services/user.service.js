@@ -4,8 +4,14 @@ const createError = require('http-errors');
 const User = require('../models/User');
 const { ERROR_MESSAGE } = require('../constants');
 
-exports.createUser = async function (email, password, userName, cdnCode) {
-  await User.create({ email, password, userName, cdnCode });
+exports.createUser = async function (
+  email,
+  password,
+  userName,
+  cdnCode,
+  accessToken,
+) {
+  await User.create({ email, password, userName, cdnCode, accessToken });
 };
 
 exports.findUserByEmail = async function (email) {
@@ -83,6 +89,23 @@ exports.addNewSubscribers = async function (userId, newSubscribers) {
   targetUser.subscribers.push(...newSubscribers);
 
   await targetUser.save();
+};
+
+exports.addValidExternalSubscriber = async function (
+  accessToken,
+  newSubscriber,
+) {
+  const targetUser = await User.findOne({ accessToken }).exec();
+
+  if (!targetUser) {
+    return false;
+  }
+
+  targetUser.subscribers.push(newSubscriber);
+
+  await targetUser.save();
+
+  return true;
 };
 
 exports.deleteSubscribers = async function (userId, subscribers) {
