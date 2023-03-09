@@ -87,9 +87,10 @@ exports.sendEmailTemplate = async function (req, res, next) {
       await getEmailTemplate(req.params.email_template_id);
 
     const { email } = await findUserByUserId(req.params.user_id);
-    const userName = email.split('@')[0];
 
+    const userName = email.split('@')[0];
     const recipientsAddress = recipients.map(recipient => recipient.email);
+    const startSendDate = new Date();
 
     const result = await requestSendingEmail(
       emailTitle,
@@ -102,7 +103,14 @@ exports.sendEmailTemplate = async function (req, res, next) {
       return next(createError(500, ERROR_MESSAGE.MAIL_SERVER_ERROR));
     }
 
-    await updateEmailTemplate(req.params.email_template_id, result.data);
+    const endSendDate = new Date();
+    const updateDate = {
+      ...result.data,
+      startSendDate,
+      endSendDate,
+    };
+
+    await updateEmailTemplate(req.params.email_template_id, updateDate);
 
     res.sendStatus(200);
   } catch (err) {
