@@ -1,3 +1,5 @@
+const { serverOrigin } = require('../config');
+
 module.exports = function getSubscriptionForm(accessToken) {
   return `
       <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/ez-mail/ez-mail-cdn@main/subscriptionForm.css">
@@ -5,7 +7,7 @@ module.exports = function getSubscriptionForm(accessToken) {
         <button class="ez-close-button" type="button">X</button>
         <div class="ez-inner-wrapper">
           <p class="ez-title">새로운 소식을 빠르게 받아보세요!</p>
-          <form action="http://localhost:3001/users/${accessToken}/external-subscriber" method="post" class="ez-form" novalidate>
+          <form action="${serverOrigin}/users/${accessToken}/external-subscriber" method="post" class="ez-form" novalidate>
             <div class="ez-input-wrapper">
               <label for="email" class="ez-label">이메일 주소</label>
               <input type="email" name="email" id="ez-email" class="ez-input" maxlength="30" required>
