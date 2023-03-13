@@ -17,6 +17,8 @@ const {
 const {
   getUserSendingInfo,
   updateUserSendingInfo,
+  getUserOrigin,
+  addUserOrigin,
 } = require('./controllers/user.controller');
 
 const router = express.Router();
@@ -50,5 +52,9 @@ router.get('/:user_id/sending-info', getUserSendingInfo);
 router.patch('/:user_id/sending-info', updateUserSendingInfo);
 
 router.get('/:user_id/subscribers/trend', getSubscribersTrend);
+
+router.get('/:user_id/origin', getUserOrigin);
+
+router.post('/:user_id/origin', addUserOrigin);
 
 module.exports = router;

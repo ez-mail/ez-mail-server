@@ -149,3 +149,17 @@ exports.updateUserSendingInfo = async function (userId, update) {
 exports.updateEmailIdToUser = async function (userId, emailId) {
   await User.updateOne({ _id: userId }, { $pull: { emailTemplates: emailId } });
 };
+
+exports.getUserOriginByAccessToken = async function (accessToken) {
+  const { origin } = await User.findOne({ accessToken }).lean();
+
+  return origin;
+};
+
+exports.addUserOrigin = async function (userId, origin) {
+  const targetUser = await User.findById(userId).exec();
+
+  targetUser.origin = origin;
+
+  await targetUser.save();
+};

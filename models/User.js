@@ -46,6 +46,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    origin: {
+      type: String,
+      default: '',
+    },
     accessToken: {
       type: String,
       required: true,
