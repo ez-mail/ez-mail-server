@@ -4,6 +4,7 @@ const {
   addNewSubscribers,
   deleteSubscribers,
   addValidExternalSubscriber,
+  getUserOriginByAccessToken,
 } = require('../../services/user.service');
 
 exports.getSubscribersTrend = async function (req, res, next) {
@@ -40,10 +41,17 @@ exports.addNewSubscribers = async function (req, res, next) {
 
 exports.addValidExternalSubscriber = async function (req, res, next) {
   try {
+    const whiteOrigin = await getUserOriginByAccessToken(
+      req.params.access_token,
+    );
+
     const result = await addValidExternalSubscriber(
       req.params.access_token,
       req.body.subscriber,
     );
+
+    res.setHeader('Access-Control-Allow-Origin', whiteOrigin);
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
 
     if (result) {
       res.sendStatus(201);
