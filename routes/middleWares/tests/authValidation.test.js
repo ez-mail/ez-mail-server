@@ -3,7 +3,7 @@ const { validateLogin, validateLogout } = require('../authValidation');
 describe('validateLogin', () => {
   const next = jest.fn();
 
-  test('로그인 상태면 validateLogin 이 next 호출', () => {
+  it('로그인 상태면 validateLogin 이 next 호출', () => {
     const req = {
       isAuthenticated: jest.fn(() => true),
     };
@@ -13,7 +13,7 @@ describe('validateLogin', () => {
     expect(next).toBeCalledTimes(1);
   });
 
-  test('로그인 상태가 아니면 validateLogin이 에러를 담아 next 호출', () => {
+  it('로그인 상태가 아니면 validateLogin이 에러를 담아 next 호출', () => {
     const req = {
       isAuthenticated: jest.fn(() => false),
     };
@@ -28,7 +28,7 @@ describe('validateLogin', () => {
 describe('validateLogout', () => {
   const next = jest.fn();
 
-  test('로그아웃 상태면 validateLogout 이 next 호출', () => {
+  it('로그아웃 상태면 validateLogout 이 next 호출', () => {
     const req = {
       isAuthenticated: jest.fn(() => false),
     };
@@ -38,7 +38,7 @@ describe('validateLogout', () => {
     expect(next).toBeCalledTimes(1);
   });
 
-  test('로그아웃 상태가 아니면 validateLogout 이 에러를 담아 next 호출', () => {
+  it('로그아웃 상태가 아니면 validateLogout 이 에러를 담아 next 호출', () => {
     const req = {
       isAuthenticated: jest.fn(() => true),
     };
