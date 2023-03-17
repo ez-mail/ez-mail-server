@@ -2,7 +2,8 @@
   "env": {
     "es2022": true,
     "node": true,
-    "browser": true
+    "browser": true,
+    "jest": true
   },
   "extends": ["airbnb", "plugin:prettier/recommended"],
   "rules": {
