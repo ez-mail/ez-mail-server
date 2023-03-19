@@ -45,6 +45,10 @@ exports.addValidExternalSubscriber = async function (req, res, next) {
       req.params.access_token,
     );
 
+    if (whiteOrigin !== req.headers.origin) {
+      return res.sendStatus(400);
+    }
+
     const result = await addValidExternalSubscriber(
       req.params.access_token,
       req.body.subscriber,
